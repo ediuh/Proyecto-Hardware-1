@@ -1,7 +1,7 @@
 import serial
 import time
 
-puertoDestino = serial.Serial("COM9", 9600, timeout=1)
+puertoDestino = serial.Serial("COM2", 9600, timeout=1)
 
 while True:
     time.sleep(0.01)

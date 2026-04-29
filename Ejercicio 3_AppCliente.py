@@ -4,7 +4,7 @@ import serial
 def CrearPuertos():
 	pass
 
-puertoOrigen = serial.Serial("COM8", 9600, timeout=1)
+puertoOrigen = serial.Serial("COM1", 9600, timeout=1)
 
 def GenerarEventoWINAPI(codigoEvento):
     puertoOrigen.write(bytes([codigoEvento]))
