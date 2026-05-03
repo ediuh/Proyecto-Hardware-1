@@ -1,8 +1,6 @@
 import customtkinter as ctk
 import serial
-
-def CrearPuertos():
-	pass
+import PIL.Image
 
 puertoOrigen = serial.Serial("COM1", 9600, timeout=1)
 
@@ -15,12 +13,16 @@ dEventos = {"Previous": 0x5a,
             "VolumeDown": 0x19
 			}
 
+imgPausa = ctk.CTkImage(light_image=Image.open("img/pause.png"), 
+						dark_image=Image.open("img/pause.png"), 
+						size=(300, 220))
+
 def GenerarCodigoEvento(codigoEvento):
     puertoOrigen.write(bytes([dEventos[codigoEvento]]))    
     print(f"Evento {codigoEvento} ({chr(dEventos[codigoEvento])}) generado")
 
 # Apariencia (claro-oscuro)
-ctk.set_appearance_mode("System") # system, light, dark
+ctk.set_appearance_mode("Dark") # system, light, dark
 # Define la paleta de colores
 ctk.set_default_color_theme("blue") # blue, dark-blue, green
 
@@ -28,34 +30,44 @@ ctk.set_default_color_theme("blue") # blue, dark-blue, green
 app = ctk.CTk()
 app.title("Mi App CTk")
 app.geometry("400x250+100+50") # Ancho x Alto en píxeles, e inicio de la ventana
-app.configure(fg_color="#e0e0e0")
+app.configure(fg_color="#000000")
 app.resizable(False, False)
 
+frame1 = ctk.CTkFrame(app)
+frame1.pack()
+frame2 = ctk.CTkFrame(app)
+frame2.pack()
+frame3 = ctk.CTkFrame(app)
+frame3.pack()
 
-def CrearBoton(texto, claveEvento):
-    boton = ctk.CTkButton(app,
+
+
+def CrearBoton(frame, texto, claveEvento, imagen):
+    boton = ctk.CTkButton(frame,
 					text=texto,
 					command=lambda: GenerarCodigoEvento(claveEvento),
 					fg_color="green",
 					hover_color="darkgreen",
 					width=1,
-					height=1)
+					height=1,
+                    image=imagen
+                    )
     return boton
 
-botonAnterior = CrearBoton("Anterior", "Previous")
-botonReproducir = CrearBoton("Reproducir", "Play")
-botonPausar = CrearBoton("Pausar", "Pause")
-botonDetener = CrearBoton("Detener", "Pause")
-botonSiguiente = CrearBoton("Siguiente", "Next")
-botonSubirVol = CrearBoton("Subir volumen", "VolumeUp")
-botonBajarVol = CrearBoton("Bajar volumen", "VolumeDown")
+botonAnterior = CrearBoton(frame1, "Anterior", "Previous")
+botonSiguiente = CrearBoton(frame1, "Siguiente", "Next")
+botonReproducir = CrearBoton(frame2, "Reproducir", "Play")
+botonPausar = CrearBoton(frame2, "Pausar", "Pause", imgPausa)
+botonDetener = CrearBoton(frame2, "Detener", "Pause")
+botonSubirVol = CrearBoton(frame3, "Subir volumen", "VolumeUp")
+botonBajarVol = CrearBoton(frame3, "Bajar volumen", "VolumeDown")
 
-botonAnterior.pack()
-botonSiguiente.pack()
-botonPausar.pack()
-botonReproducir.pack()
-botonDetener.pack()
-botonBajarVol.pack()
-botonSubirVol.pack()
+botonAnterior.pack(padx=10, pady=10, side="left")
+botonSiguiente.pack(padx=10, pady=10, side="right")
+botonPausar.pack(padx=10, pady=10, side="left")
+botonReproducir.pack(padx=10, pady=10, side="left")
+botonDetener.pack(padx=10, pady=10, side="right")
+botonBajarVol.pack(padx=10, pady=10, side="left")
+botonSubirVol.pack(padx=10, pady=10, side="right")
 
 app.mainloop()
