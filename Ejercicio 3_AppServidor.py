@@ -30,7 +30,7 @@ def EjecutarEvento(iCodigoEvento):
             win32gui.SendMessage(handle, win32con.WM_COMMAND, 40059)
             print(f"Comando enviado: {iCodigoEvento}")
     else:
-        print("Nada enviado xd")
+        print("No está abierta la ventana.")
 
 
 

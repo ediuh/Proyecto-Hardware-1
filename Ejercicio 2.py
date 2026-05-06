@@ -9,7 +9,7 @@ SAMPLE = 20000  # Número de muestras [cite: 89]
 S_RATE = 20000.0 # Tasa de muestreo (Hz) 
 nMAX = 20000
 
-# 1. Generación de Ondas base [cite: 93-106]
+# 1. Generación de Ondas base
 t = np.arange(SAMPLE)
 aw = [
     2 * np.sin(2 * np.pi * FREQ_0 * t / S_RATE),
@@ -17,14 +17,14 @@ aw = [
     9 * np.sin(2 * np.pi * FREQ_2 * t / S_RATE)
 ]
 
-# 2. Composición de Señales (aS) [cite: 111-124]
+# 2. Composición de Señales (aS)
 aS = [
     aw[0] + aw[1],          # Signal 1: Suma de frecuencias altas
     aw[0] + aw[2],          # Signal 2: Alta frecuencia + Baja frecuencia
     aw[1] * aw[2]           # Signal 3: Modulación (Multiplicación)
 ]
 
-# 3. Función del Filtro Complementario [cite: 126-135]
+# 3. Función del Filtro Complementario
 def Filter_Comp(av, nA):
     af = np.zeros(len(av))
     af[0] = av[0]
