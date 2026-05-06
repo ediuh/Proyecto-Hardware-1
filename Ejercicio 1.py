@@ -22,11 +22,21 @@ fft = np.fft.fft(w12) # frecuencia peak
 freq = np.fft.fftfreq(SAMPLE, 1/SAMPLE)
 
 
-# CREACIÓN DE GRÁFICAS
+# CREACIÓN DE VENTANA Y GRÁFICAS
+
 fig, axs = plt.subplots(4,1,figsize=(10,4))
 
+fig.canvas.manager.set_window_title('Proyecto Hardware 1 - FFT')
+
 axs[0].plot(w_1[:500])
+axs[0].set_title('Gráfico A')
 axs[1].plot(w_2[:4000])
+axs[1].set_title('Gráfico B')
 axs[2].plot(w12[:3000])
-axs[3].plot(freq, abs(fft)**2)
+axs[2].set_title('Gráfico C')
+axs[3].plot(freq, abs(fft))
+axs[3].set_xlim(0, 1500)
+axs[3].set_title('Gráfico D')
+
+plt.tight_layout()
 plt.show()
